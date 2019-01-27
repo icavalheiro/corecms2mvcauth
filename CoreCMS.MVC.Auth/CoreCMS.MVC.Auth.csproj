@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Description>Library of helper tools for usage authentication using CoreCMS Users.</Description>
+    <Authors>Ivan Schuaste Cavalheiro [ivanscavalheiro@hotmail.com]</Authors>
+    <Company>Ivan Schuaste Cavalheiro [ivanscavalheiro@hotmail.com]</Company>
+    <RepositoryUrl>https://github.com/icavalheiro/corecms2mvcauth</RepositoryUrl>
+    <RepositoryType>GitHUB</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CoreCMS" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+  </ItemGroup>
+
+</Project>

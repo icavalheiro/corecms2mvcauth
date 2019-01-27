@@ -1,0 +1,16 @@
+@{
+
+}
+
+
+<form method="post">
+
+    @if (ViewData["Error"] != null)
+    {
+        <h3>@ViewData["Error"]</h3>
+    }
+
+    <input name="username" value="@ViewData["username"]"/>
+    <input name="password" value="@ViewData["password"]"/>
+    <input type="submit" value="OK" />
+</form>
