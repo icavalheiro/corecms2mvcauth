@@ -9,7 +9,7 @@ using CoreCMS.MVC.Auth.Tools;
 
 namespace CoreCMS.MVC.Auth
 {
-    public static class Auth<T> where T : User
+    public static class Auth<T> where T : User, new()
     {
         /// <summary>
         /// Name of the cookie o be sent to the client's browser.
@@ -44,7 +44,23 @@ namespace CoreCMS.MVC.Auth
                 if (requestIp == tokenEntry.AccessIp && tokenEntry.ExpireAt.Ticks > DateTime.Now.Ticks)
                 {
                     //return the user related to that token
-                    return (T)Cms.UserSystem.GetById(tokenEntry.UserId);
+                    var user = Cms.UserSystem.GetById(tokenEntry.UserId);
+                    if(user != null)
+                    {
+                        //create a new instance of the derived class
+                        //since we cannot just convert things...
+                        //cannot convert base class to derived class
+                        var t = new T
+                        {
+                            Id = user.Id,
+                            Salt = user.Salt,
+                            Username = user.Username,
+                            AccessLevel = user.AccessLevel,
+                            HashedPassword = user.HashedPassword
+                        };
+                        
+                        return t;
+                    }
                 }
                 else
                 {
@@ -116,7 +132,7 @@ namespace CoreCMS.MVC.Auth
         public static async Task<bool> TryLoginUserAsync(string username, string password, HttpResponse response)
         {
             //lets retrieve the user from database
-            var user = (T)Cms.UserSystem.GetByUsername(username);
+            var user = Cms.UserSystem.GetByUsername(username);
             if (user != null && user.TestPassword(password))
             {
                 //valid username and valid password for this given user
@@ -134,7 +150,7 @@ namespace CoreCMS.MVC.Auth
         /// <param name="user">User to login.</param>
         /// <param name="response">Http response to be sent to client.</param>
         /// <returns>If it succeeded.</returns>
-        public static async Task<bool> TryLoginUserAsync(T user, HttpResponse response)
+        public static async Task<bool> TryLoginUserAsync(User user, HttpResponse response)
         {
             if (user == null || user.Id == Guid.Empty)
             {

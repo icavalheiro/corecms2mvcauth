@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CoreCMS.MVC.Auth
 {
-    public class AuthController<T> : Controller where T : User
+    public class AuthController<T> : Controller where T : User, new()
     {
         /// <summary>
         /// Try to login a user using his username and password.
